@@ -1,0 +1,24 @@
+Rappel au niveau actuel des choses pour les bases de données :
+
+3 tables principales :
+1/ "atranscript_vet_tempo" : représente une jointure test d'Apogée
+2/ "artefact_atranscript_vet" : La table de l'artefact sur la base de donnée du serveur Mahara
+3/ "artefact" : la table d'artefacts de Mahara
+Déroulement :
+- Un CRON compare les données d'atranscript_vet_tempo avec celles d'artefact_atranscript_vet
+- Si des lignes de la première n'existent pas dans la seconde, une copie est réalisée
+- La table artefact est ensuite mise à jour ; le titre de l'artefact ainsi créé correspond à l'année d'obtention, et la description au code du diplôme/de l'année d'étude (artefacttype = atranscript)
+
+Pour se faire une idée, voir les screenshot "capture_atranscript_vet_tempo", "capture_artefact_atranscript_vet", et "capture_artefact_artefacttype_atranscript" représentant le contenu actuel des bases de test à Brest. Ainsi que la capture d'écran "capture_mahara" faite directement depuis l'interface web, pour l'étudiant "leolhegaret" dont le "code_etu" est le 20121234 : il a deux diplomes extraits de la base dont les identifiants (artefactid) sont 385 et 386.
+
+
+Pour tester l'artefact correctement, il faut donc :
+- créer les deux tables "atranscript_vet_tempo" et "artefact_atranscript_vet"
+- remplir "atranscript_vet_tempo" avec des données de test (exemple : INSERT INTO atranscript_vet_tempo values ('20121234', 'UBO', 'M1Info', null, '16', 'ADM', 'Master 1 Info', '2010', 'leolhegaret', 'N'); )
+NB : la colonne "fait" désigne si la synchronisation entre les tables a été faite (O) ou non (N)
+- Sur mahara, rafraichir l'onglet "mes diplomes UBO" jusqu'à ce que la synchronisation ait fait son office
+- La note apparait, la colonne "fait" est donc passée à O, la table "artefact_atranscript_vet" a une nouvelle ligne et un nouvel artefact est créé dans la table "artefact" avec pour artefacttype "atranscript".
+
+
+Note sur la configuration dans le blocktype : Lors du drag and drop sur une page pour le blocktype "atranscript", un cadre de configuration s'ouvre proposant à l'étudiant de sélectionner la/les ligne(s) qu'il souhaite afficher. A l'heure actuelle cela ne marche pas (qu'il en sélectionne une ou plusieurs, toutes les notes seront affichées sur la page). Ce bug est actuellement en correction.
+
