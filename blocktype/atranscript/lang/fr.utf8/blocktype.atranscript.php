@@ -31,4 +31,18 @@ $string['description'] = 'Diplômes UBO';
 $string['vetstoshow'] = 'Sélectionnez les diplômes que vous souhaitez afficher';
 $string['defaulttitledescription'] = 'Si vous ne remplissez pas le champ "Titre du bloc", le titre par défaut sera "Mes diplômes"';
 
+$string['selectcol'] = 'Sélectionnez les champs que vous souhaitez associer à ce diplôme';
+$string['helpcol'] = 'Maintenez la touche CTRL enfoncée et sélectionnez les colonnes que vous souhaitez faire apparaître concernant votre diplôme. Si vous ne faites rien, tous les champs seront par défaut affichés.';
+
+$string['annee'] = 'Années';
+$string['Etab'] = 'Etablissement';
+$string['code'] = 'Code';
+$string['libelle'] = 'Intitule diplome';
+$string['resultat'] = 'Resultat';
+$string['note'] = 'Note';
+$string['annexedesc'] = 'Annexe descriptive';
+$string['pdfa'] = 'PDF-Archive certifié';
+
+
+
 ?>

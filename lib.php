@@ -64,7 +64,7 @@ class PluginArtefactAtranscript extends Plugin {
 	}
 
 public static function import_atranscript_datas() {
-//APPEL DU CRON APOGEE
+//APPEL DU CRON 
 	$results = get_records_sql_array("SELECT * FROM atranscript_vet_tempo where fait='N'",array());
 	if (empty($results)) return;
 	db_begin();
@@ -103,7 +103,12 @@ public static function import_atranscript_datas() {
 						  SET fait='O'
 						  WHERE cod_etu = ? AND cod_vet = ? AND annee = ?";
 
-           execute_sql($sqlUpdate , array($ligne->cod_etu,$ligne->cod_vet,$ligne->annee));
+			$parentUpdate = "UPDATE artefact 
+							 SET parent = id 
+							 WHERE artefacttype='atranscript' AND owner = ?";
+
+           execute_sql($sqlUpdate , array($ligne->cod_etu,$ligne-i>cod_vet,$ligne->annee));
+           execute_sql($parentUpdate , array($leuser->id));
 
 		}
         }
@@ -111,7 +116,7 @@ public static function import_atranscript_datas() {
 	db_commit();
 
 }
-
+/*
 public static function test_requete() {
 //TEST DU CRON APOGEE
         $results = get_records_sql_array("SELECT * FROM atranscript_vet_tempo where fait='N'",array());
@@ -157,7 +162,7 @@ public static function test_requete() {
 	db_commit();
 
 
-}
+}*/
 
 
 }
@@ -227,20 +232,41 @@ class ArtefactTypeAtranscript extends ArtefactType {
     }
 
   /**
-     * This function returns a list of the given user's atranscript data.
+     * These two functions return a list of the given user's atranscript data.
      *
      * @param limit how many vet to display per page
      * @param offset current page to display
      * @return array (count: integer, data: array)
      */
-    public static function get_vets($offset=0, $limit=20) {
+    public static function get_vets($transc, $offset=0, $limit=20) {
+
+        ($vets = get_records_sql_array("
+			SELECT * FROM {artefact} a 
+			JOIN {artefact_atranscript_vet} at ON at.artefact = a.id
+            WHERE a.artefacttype = 'atranscript' AND a.parent = ?
+            ORDER BY at.annee, a.id", array($transc), $offset, $limit))
+        || ($vets = array());
+
+        $result = array(
+            'count'  => count_records('artefact', 'artefacttype', 'atranscript', 'parent', $transc),
+            'data'   => $vets,
+            'offset' => $offset,
+            'limit'  => $limit,
+			'id' 	 => $transc,
+        );
+
+        return $result;
+    }
+
+
+    public static function get_allvets($offset=0, $limit=20) {
         global $USER;
 
-        ($vets = get_records_sql_array("SELECT * FROM {artefact} a JOIN {artefact_atranscript_vet} at ON at.artefact = a.id
-                                        WHERE a.owner = ? AND a.artefacttype = 'atranscript'
-                                        ORDER BY at.annee, a.id", 
-										array($USER->get('id')),
-										$offset, $limit))
+        ($vets = get_records_sql_array("
+			SELECT * FROM {artefact} a 
+			JOIN {artefact_atranscript_vet} at ON at.artefact = a.id
+            WHERE a.owner = ? AND a.artefacttype = 'atranscript'
+            ORDER BY at.annee, a.id", array($USER->get('id')), $offset, $limit))
         || ($vets = array());
 
         $result = array(
@@ -252,6 +278,8 @@ class ArtefactTypeAtranscript extends ArtefactType {
 
         return $result;
     }
+
+
     /**
      * This method extends ArtefactType::commit() by adding additional data
      * into the artefact__atranscript_vet table.
@@ -300,13 +328,15 @@ class ArtefactTypeAtranscript extends ArtefactType {
 
 /* copied from taks plugin
 */
-   public function render_vets(&$vets, $template, $options, $pagination) {
+   public function render_vets(&$vets, $template, $options, $pagination, $instance) {
         $smarty = smarty_core();
-        $smarty->assign_by_ref('vets', $vets);
-        $smarty->assign_by_ref('options', $options);
+        $configdata = $instance->get('configdata');
+        $smarty->assign('vets', $vets);
+        $smarty->assign('options', $options);
+        $smarty->assign('cols', $configdata['cols']);
         $vets['tablerows'] = $smarty->fetch($template);
 
-        if ($vets['limit'] && $pagination) {
+        if ($vets['limit'] && $pagination) { 
             $pagination = build_pagination(array(
                 'id' => $pagination['id'],
                 'class' => 'center',

@@ -2,8 +2,6 @@
 <div id="atranscriptwrap">
 <p>{str tag="atranscriptdesc" section="artefact.atranscript"}</p>
 {$atranscriptvet|safe}
-{contextualhelp plugintype='artefact' pluginname='atranscript' section='vetdesc'}
-<br>
 {if !$vets.data}
     <div class="message">{$strnovets|safe}</div>
 {else}

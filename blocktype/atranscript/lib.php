@@ -52,8 +52,9 @@ class PluginBlocktypeAtranscript extends PluginBlocktype {
 
 	//copie sur tasks
        $smarty = smarty_core();
-        if (isset($configdata['artefactids'])) {
-            $les_vets = ArtefactTypeAtranscript::get_vets(0,20);
+		$smarty->assign('cols', $configdata['cols']);
+        if (!empty($configdata['artefactids'])) {
+            $les_vets = ArtefactTypeAtranscript::get_vets($configdata['artefactids']);
 			$template = 'artefact:atranscript:vetrows.tpl';
             $blockid = $instance->get('id');
             if ($exporter) {
@@ -67,8 +68,7 @@ class PluginBlocktypeAtranscript extends PluginBlocktype {
                     'jsonscript' => 'artefact/atranscript/atranscript.json.php',
                 );
             }
-            ArtefactTypeAtranscript::render_vets($les_vets, $template, $configdata, $pagination);
-
+            ArtefactTypeAtranscript::render_vets($les_vets, $template, $configdata, $pagination, $instance);
             if ($exporter && $vets['count'] > $vets['limit']) {
                 $artefacturl = get_config('wwwroot') . 'view/artefact.php?artefact=' . $configdata['artefactids']
                     . '&amp;view=' . $instance->get('view');
@@ -82,6 +82,7 @@ class PluginBlocktypeAtranscript extends PluginBlocktype {
         }
 
         $smarty->assign('blockid', $instance->get('id'));
+		$smarty->assign('cols', $configdata['cols']);
         return $smarty->fetch('blocktype:atranscript:content2.tpl');
 
 
@@ -96,9 +97,30 @@ class PluginBlocktypeAtranscript extends PluginBlocktype {
         $configdata = $instance->get('configdata');
 
         $form = array();
-
-        // Which resume field does the user want
+        // Which field does the user want
         $form[] = self::artefactchooser_element((isset($configdata['artefactids'])) ? $configdata['artefactids'] : null);
+
+        // Columns selection
+        $options = array(
+            0 => get_string('annee', 'blocktype.atranscript/atranscript'),
+            1 => get_string('Etab', 'blocktype.atranscript/atranscript'),
+            2 => get_string('code', 'blocktype.atranscript/atranscript'),
+            3 => get_string('libelle', 'blocktype.atranscript/atranscript'),
+            4 => get_string('resultat', 'blocktype.atranscript/atranscript'),
+            5 => get_string('note', 'blocktype.atranscript/atranscript'),
+            6 => get_string('annexedesc', 'blocktype.atranscript/atranscript'),
+            7 => get_string('pdfa', 'blocktype.atranscript/atranscript'),
+        );
+
+        $form['cols'] = array(
+            'type'    => 'select',
+            'title'   => get_string('selectcol', 'blocktype.atranscript/atranscript'),
+			'description'	  => get_string('helpcol', 'blocktype.atranscript/atranscript'),
+            'multiple' => true,
+            'options' => $options,
+			'defaultvalue' => array(0, 1, 2, 3, 4, 5, 6, 7),
+			'size'	  => 8,
+        ); 
 
         return $form;
     }
@@ -111,7 +133,7 @@ class PluginBlocktypeAtranscript extends PluginBlocktype {
             'title' => get_string('vetstoshow', 'blocktype.atranscript/atranscript'),
             'defaultvalue' => $default,
             'blocktype' => 'atranscript',
-            'selectone' => false,
+            'selectone' => true,
             'search'    => false,
             'artefacttypes' => PluginArtefactAtranscript::get_artefact_types(),
             'template'  => 'artefact:atranscript:artefactchooser-element.tpl',
@@ -121,5 +143,6 @@ class PluginBlocktypeAtranscript extends PluginBlocktype {
     public static function allowed_in_view(View $view) {
         return $view->get('owner') != null;
     }
+
 }
 ?>

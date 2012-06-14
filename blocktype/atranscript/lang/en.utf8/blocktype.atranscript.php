@@ -32,4 +32,17 @@ $string['description'] = 'Transcripts';
 $string['vetstoshow'] = 'Select the transcript to display';
 $string['defaulttitledescription'] = 'If you don\'t fill in the "Block Title", default title will be "My Transcripts"';
 
+$string['selectcol'] = 'Select fields to display about your transcript';
+$string['helpcol'] = 'Hold down the CTRL key, and select the columns that you want to display about your transcript. If you do nothing, all fields are displayed by default.';
+
+$string['annee'] = 'Obtention Year';
+$string['Etab'] = 'University';
+$string['code'] = 'Code';
+$string['libelle'] = 'Transcript title';
+$string['resultat'] = 'Result';
+$string['note'] = 'Mark';
+$string['annexedesc'] = 'Appendix';
+$string['pdfa'] = 'PDF-Archive';
+
+
 ?>

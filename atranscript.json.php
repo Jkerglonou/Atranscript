@@ -34,7 +34,7 @@ safe_require('artefact', 'atranscript');
 $limit = param_integer('limit', 20);
 $offset = param_integer('offset', 0);
 
-$les_vets = ArtefactTypeAtranscript::get_vets($offset, $limit);
+$les_vets = ArtefactTypeAtranscript::get_allvets($offset, $limit);
 ArtefactTypeAtranscript::build_vets_list_html($les_vets);
 
 json_reply(false, (object) array('message' => false, 'data' => $les_vets));

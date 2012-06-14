@@ -4,14 +4,16 @@
     <colgroup width="50%" span="2"></colgroup>
     <thead>
         <tr>
-            <th class="c1">{str tag='annee' section='artefact.atranscript'}</th>
-            <th class="c2">{str tag='Etab' section='artefact.atranscript'}</th>
-            <th class="c2">{str tag='code' section='artefact.atranscript'}</th>
-            <th class="c3">{str tag='libelle' section='artefact.atranscript'}</th>
-            <th class="c3">{str tag='resultat' section='artefact.atranscript'}</th>
-            <th class="c3">{str tag='note' section='artefact.atranscript'}</th>
-            <th class="c3">{str tag='annexedesc' section='artefact.atranscript'}</th>
-            <th class="c3">{str tag='pdfa' section='artefact.atranscript'}</th>
+{foreach from=$cols item=val} 
+{if $val == 0} <th class="c1">{str tag='annee' section='artefact.atranscript'}</th> {/if}
+{if $val == 1} <th class="c2">{str tag='Etab' section='artefact.atranscript'}</th> {/if}
+{if $val == 2} <th class="c2">{str tag='code' section='artefact.atranscript'}</th> {/if}
+{if $val == 3} <th class="c3">{str tag='libelle' section='artefact.atranscript'}</th> {/if}
+{if $val == 4} <th class="c3">{str tag='resultat' section='artefact.atranscript'}</th> {/if}
+{if $val == 5} <th class="c3">{str tag='note' section='artefact.atranscript'}</th> {/if}
+{if $val == 6} <th class="c3">{str tag='annexedesc' section='artefact.atranscript'}</th> {/if}
+{if $val == 7} <th class="c3">{str tag='pdfa' section='artefact.atranscript'}</th> {/if}
+{/foreach}
         </tr>
     </thead>
     <tbody>

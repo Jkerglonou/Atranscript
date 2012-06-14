@@ -39,7 +39,7 @@ $string['atranscript'] = 'atranscript-vet';
 
 $string['atranscriptdesc'] = '
 <p>
-Here are the data for your student\'s years and transcripts.
+Here are the data about your years and transcripts.
 </p>
 ';
 

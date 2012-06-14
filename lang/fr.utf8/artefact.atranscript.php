@@ -30,8 +30,8 @@ $string['Etab'] = 'Etablissement';
 $string['Results'] = 'Voici vos résultats, par ordre chronologique :';
 $string['YearObtention'] = 'Année d\'obtention';
 $string['Label'] = 'Libellé';
-$string['vets'] = 'mes VET';
-$string['vetstr'] = 'Vos annees d\'études';
+$string['vets'] = 'Mes diplômes';
+$string['vetstr'] = 'Vos annees d\'études et les résultats associés';
 
 $string['pluginname'] = 'Atranscript';
 $string['mesresultats'] = 'Mes Diplômes';

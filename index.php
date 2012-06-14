@@ -37,7 +37,7 @@ require_once(get_config('docroot') . 'artefact/lib.php');
 
 safe_require('artefact', 'atranscript');
 
-$les_vets = ArtefactTypeAtranscript::get_vets(0,20);
+$les_vets = ArtefactTypeAtranscript::get_allvets(0,20);
 ArtefactTypeAtranscript::build_vets_list_html($les_vets);
 
 $js = <<< EOF
