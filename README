@@ -16,9 +16,6 @@ Pour tester l'artefact correctement, il faut donc :
 - créer les deux tables "atranscript_vet_tempo" et "artefact_atranscript_vet"
 - remplir "atranscript_vet_tempo" avec des données de test (exemple : INSERT INTO atranscript_vet_tempo values ('20121234', 'UBO', 'M1Info', null, '16', 'ADM', 'Master 1 Info', '2010', 'leolhegaret', 'N'); )
 NB : la colonne "fait" désigne si la synchronisation entre les tables a été faite (O) ou non (N)
-- Sur mahara, rafraichir l'onglet "mes diplomes UBO" jusqu'à ce que la synchronisation ait fait son office
+- Sur mahara, rafraichir l'onglet "Mes diplômes" jusqu'à ce que la synchronisation ait fait son office
 - La note apparait, la colonne "fait" est donc passée à O, la table "artefact_atranscript_vet" a une nouvelle ligne et un nouvel artefact est créé dans la table "artefact" avec pour artefacttype "atranscript".
-
-
-Note sur la configuration dans le blocktype : Lors du drag and drop sur une page pour le blocktype "atranscript", un cadre de configuration s'ouvre proposant à l'étudiant de sélectionner la/les ligne(s) qu'il souhaite afficher. A l'heure actuelle cela ne marche pas (qu'il en sélectionne une ou plusieurs, toutes les notes seront affichées sur la page). Ce bug est actuellement en correction.
 
